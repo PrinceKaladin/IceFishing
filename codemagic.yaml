@@ -28,15 +28,15 @@ workflows:
             -returnlicense \
             -logFile unity_license_return.log
 
-      - name: Prepare Android keystore
-        script: |
-          echo "Decoding Android keystore..."
-          echo $CM_KEYSTORE_BASE64 | base64 --decode > IceFishing.keystore
-          export ANDROID_KEYSTORE_PATH=IceFishing.keystore
-          export ANDROID_KEYSTORE_PASSWORD=$CM_KEYSTORE_PASSWORD
-          export ANDROID_KEY_ALIAS=$CM_KEY_ALIAS
-          export ANDROID_KEY_PASSWORD=$CM_KEY_PASSWORD
-          echo "Keystore saved at $ANDROID_KEYSTORE_PATH"
+        - name: Return Unity license
+          script: |
+            echo "Returning Unity license to ensure batch builds recognize it..."
+            "$UNITY_HOME/Contents/MacOS/Unity" -batchmode \
+              -quit \
+              -returnlicense \
+              -logFile unity_license_return.log || true
+
+
 
       - name: Build the project
         script: |

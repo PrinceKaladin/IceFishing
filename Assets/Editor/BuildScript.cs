@@ -12,12 +12,15 @@ public class BuildScript
         // Список сцен
         // ========================
         string[] scenes = {
-            "Assets/Scenes/settings.unity",
-            "Assets/Scenes/gameplay.unity",
-            "Assets/Scenes/lose.unity",
-            "Assets/Scenes/win.unity",
             "Assets/Scenes/menu.unity",
+            "Assets/Scenes/gameplay.unity",
             "Assets/Scenes/howtoplay.unity"
+            "Assets/Scenes/settings.unity",
+            "Assets/Scenes/win.unity",
+            "Assets/Scenes/lose.unity",
+            
+            
+           
         };
 
         // ========================

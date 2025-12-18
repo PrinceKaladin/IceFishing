@@ -8,7 +8,7 @@ workflows:
       vars:
         BUILD_PLATFORM: android
       groups:
-        - unity_credentials  # сюда входят UNITY_SERIAL, UNITY_EMAIL, UNITY_PASSWORD, а также CM_KEY_ALIAS, CM_KEYSTORE_PASSWORD, CM_KEY_PASSWORD
+        - unity_credentials 
     scripts:
       - name: Activate Unity license
         script: |
@@ -20,7 +20,9 @@ workflows:
             -username $UNITY_EMAIL \
             -password $UNITY_PASSWORD
 
-          echo "Caching Unity license for batch build..."
+      - name: Return Unity license
+        script: |
+          echo "Returning Unity license to ensure batch builds recognize it..."
           "$UNITY_HOME/Contents/MacOS/Unity" -batchmode \
             -quit \
             -returnlicense \
@@ -51,3 +53,4 @@ workflows:
       - IceFishing.apk
       - unity_build.log
       - unity_license.log
+      - unity_license_return.log

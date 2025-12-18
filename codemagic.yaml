@@ -6,9 +6,19 @@ workflows:
       vars:
         BUILD_PLATFORM: android
     scripts:
-      - name: Build Unity Project
+      - name: Set the build number
         script: |
-          echo "Starting Unity build on Linux..."
-          "$UNITY_PATH/Unity.app/Contents/MacOS/Unity" -quit -batchmode -nographics -projectPath "$CM_PROJECT_DIR/IceFishing" -executeMethod BuildScript.PerformBuild -buildTarget Android
+          echo "Setting build number..."
+
+      - name: Build the project
+        script: |
+          echo "Building Unity project..."
+          "$UNITY_PATH/Unity.app/Contents/MacOS/Unity" -batchmode \
+            -quit \
+            -logFile unity_build.log \
+            -projectPath "$CM_PROJECT_DIR/IceFishing" \
+            -executeMethod BuildScript.PerformBuild \
+            -nographics
+
     artifacts:
-      - build/**/*
+      - build/Android/*.aab  

@@ -18,9 +18,6 @@ public class BuildScript
             "Assets/Scenes/settings.unity",
             "Assets/Scenes/win.unity",
             "Assets/Scenes/lose.unity",
-            
-            
-           
         };
 
         // ========================

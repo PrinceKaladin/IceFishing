@@ -3,7 +3,6 @@ workflows:
     name: Unity Build - IceFishing 
     environment:
       unity: 2022.3.62f1
-      os: windows
       vars:
         BUILD_PLATFORM: android  
     scripts:

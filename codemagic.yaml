@@ -9,12 +9,7 @@ workflows:
         BUILD_PLATFORM: android
       groups:
         - unity_credentials
-    cache:
-      paths:
-        - Library
-        - obj
-        - Logs
-        - UserSettings
+    cache: true
     scripts:
       - name: Activate Unity license
         script: |

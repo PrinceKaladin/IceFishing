@@ -8,7 +8,7 @@ workflows:
     scripts:
       - name: Build Unity Project
         script: |
-          echo "Starting Unity build on Linux/macOS..."
-          $UNITY_PATH/Editor/Unity -quit -batchmode -nographics -projectPath "$CM_PROJECT_DIR/IceFishing" -executeMethod BuildScript.PerformBuild -buildTarget Android
+          echo "Starting Unity build on Linux..."
+          "$UNITY_PATH/Unity.app/Contents/MacOS/Unity" -quit -batchmode -nographics -projectPath "$CM_PROJECT_DIR/IceFishing" -executeMethod BuildScript.PerformBuild -buildTarget Android
     artifacts:
       - build/**/*

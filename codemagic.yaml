@@ -2,20 +2,18 @@ workflows:
   unity-build:
     name: Unity Build - IceFishing
     instance_type: mac_mini_m2
-    max_build_duration: 180  # 3 часа — хватит на первый долгий импорт
-    caching:
-      enabled: true
-      cache_paths:
-        - Library/**          # Кэшируем Library — это решит rebuild и таймауты
-        - obj/**
-        - Logs/**
-        - UserSettings/**
+    max_build_duration: 180
     environment:
       unity: 2022.3.62f1
       vars:
         BUILD_PLATFORM: android
       groups:
         - unity_credentials
+      cache_paths:
+        - Library
+        - obj
+        - Logs
+        - UserSettings
     scripts:
       - name: Activate Unity license
         script: |

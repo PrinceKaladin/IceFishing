@@ -7,8 +7,8 @@ workflows:
         BUILD_PLATFORM: android  
     scripts:
       - name: Build Unity Project
-        script: |
-          echo Starting Unity build on Windows...
-          "$UNITY_PATH\Editor\Unity.exe" -quit -batchmode -nographics -projectPath "$CM_PROJECT_DIR\IceFishing" -executeMethod BuildScript.PerformBuild -buildTarget $BUILD_PLATFORM
+         script: |
+            echo "Starting Unity build on Linux/macOS..."
+            $UNITY_PATH/Editor/Unity -quit -batchmode -nographics -projectPath "$CM_PROJECT_DIR/IceFishing" -executeMethod BuildScript.PerformBuild -buildTarget Android
     artifacts:
       - build\**\*

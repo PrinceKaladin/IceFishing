@@ -25,12 +25,4 @@ workflows:
       - build/Android/*.aab
       - unity_build.log  
 
-    publishing:
-      scripts:
-        - name: Deactivate Unity license
-          script: |
-            "$UNITY_HOME/Contents/MacOS/Unity" -batchmode \
-              -quit \
-              -logFile unity_return.log \
-              -returnlicense \
-              -nographics
+

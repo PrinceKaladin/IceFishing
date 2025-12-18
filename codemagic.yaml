@@ -30,12 +30,9 @@ workflows:
 
       - name: Return Unity license
         script: |
-          set +e
           echo "Returning Unity license to ensure batch builds recognize it..."
-          "$UNITY_HOME/Contents/MacOS/Unity" -batchmode \
-            -quit \
-            -returnlicense \
-            -logFile unity_license_return.log
+          "$UNITY_HOME/Contents/MacOS/Unity" -batchmode -quit -returnlicense -logFile unity_license_return.log || exit 0
+
 
 
 

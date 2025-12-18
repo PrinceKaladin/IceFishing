@@ -20,6 +20,12 @@ workflows:
             -username $UNITY_EMAIL \
             -password $UNITY_PASSWORD
 
+          echo "Caching Unity license for batch build..."
+          "$UNITY_HOME/Contents/MacOS/Unity" -batchmode \
+            -quit \
+            -returnlicense \
+            -logFile unity_license_return.log
+
       - name: Prepare Android keystore
         script: |
           echo "Decoding Android keystore..."

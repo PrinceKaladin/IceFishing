@@ -1,14 +1,14 @@
 workflows:
   unity-build:
-    name: Unity Build - IceFishing 
+    name: Unity Build - IceFishing
     environment:
       unity: 2022.3.62f1
       vars:
-        BUILD_PLATFORM: android  
+        BUILD_PLATFORM: android
     scripts:
       - name: Build Unity Project
-         script: |
-            echo "Starting Unity build on Linux/macOS..."
-            $UNITY_PATH/Editor/Unity -quit -batchmode -nographics -projectPath "$CM_PROJECT_DIR/IceFishing" -executeMethod BuildScript.PerformBuild -buildTarget Android
+        script: |
+          echo "Starting Unity build on Linux/macOS..."
+          $UNITY_PATH/Editor/Unity -quit -batchmode -nographics -projectPath "$CM_PROJECT_DIR/IceFishing" -executeMethod BuildScript.PerformBuild -buildTarget Android
     artifacts:
-      - build\**\*
+      - build/**/*

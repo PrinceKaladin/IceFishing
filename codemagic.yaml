@@ -1,19 +1,28 @@
 workflows:
   unity-build:
     name: Unity Build - IceFishing
+    instance_type: mac_mini_m2  # или mac_pro, рекомендуется для Unity
+    max_build_duration: 120
     environment:
-      unity: 2022.3.62f1
+      unity: 2022.3.62f1  # Это автоматически установит нужную версию и выставит $UNITY_HOME
       vars:
         BUILD_PLATFORM: android
+      groups:
+        - unity_credentials  # Создай группу в UI Codemagic с UNITY_EMAIL, UNITY_PASSWORD, UNITY_SERIAL
     scripts:
-      - name: Set the build number
+      - name: Activate Unity license
         script: |
-          echo "Setting build number..."
+          "$UNITY_HOME/Contents/MacOS/Unity" -batchmode \
+            -quit \
+            -logFile unity_license.log \
+            -serial $UNITY_SERIAL \
+            -username $UNITY_EMAIL \
+            -password $UNITY_PASSWORD
 
       - name: Build the project
         script: |
           echo "Building Unity project..."
-          unity-editor -batchmode \
+          "$UNITY_HOME/Contents/MacOS/Unity" -batchmode \
             -quit \
             -logFile unity_build.log \
             -projectPath "$CM_PROJECT_DIR/IceFishing" \
@@ -22,3 +31,14 @@ workflows:
 
     artifacts:
       - build/Android/*.aab
+      - unity_build.log  # На всякий случай, чтобы видеть логи при ошибке
+
+    publishing:
+      scripts:
+        - name: Deactivate Unity license
+          script: |
+            "$UNITY_HOME/Contents/MacOS/Unity" -batchmode \
+              -quit \
+              -logFile unity_return.log \
+              -returnlicense \
+              -nographics

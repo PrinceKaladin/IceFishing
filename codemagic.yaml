@@ -25,7 +25,7 @@ workflows:
           "$UNITY_HOME/Contents/MacOS/Unity" -batchmode \
             -quit \
             -logFile unity_build.log \
-            -projectPath "$CM_PROJECT_DIR/IceFishing" \
+            -projectPath . \
             -executeMethod BuildScript.PerformBuild \
             -nographics
 

@@ -2,11 +2,15 @@ using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
 using System;
+using System.IO;
 
 public class BuildScript
 {
     public static void PerformBuild()
     {
+        // ========================
+        // Список сцен
+        // ========================
         string[] scenes = {
             "Assets/Scenes/settings.unity",
             "Assets/Scenes/gameplay.unity",
@@ -16,31 +20,44 @@ public class BuildScript
             "Assets/Scenes/howtoplay.unity"
         };
 
+        // ========================
         // Пути к файлам сборки
+        // ========================
         string aabPath = "IceFishing.aab";
         string apkPath = "IceFishing.apk";
 
-        // ⚡ Настройка Android Signing из переменных окружения
-        string keystorePath = Environment.GetEnvironmentVariable("CM_KEYSTORE_PATH");
+        // ========================
+        // Настройка Android Signing через переменные окружения
+        // ========================
+        string keystoreBase64 = Environment.GetEnvironmentVariable("CM_KEYSTORE_BASE64");
         string keystorePass = Environment.GetEnvironmentVariable("CM_KEYSTORE_PASSWORD");
         string keyAlias = Environment.GetEnvironmentVariable("CM_KEY_ALIAS");
         string keyPass = Environment.GetEnvironmentVariable("CM_KEY_PASSWORD");
 
-        if (!string.IsNullOrEmpty(keystorePath))
+        string tempKeystorePath = null;
+
+        if (!string.IsNullOrEmpty(keystoreBase64))
         {
+            // Создать временный файл keystore
+            tempKeystorePath = Path.Combine(Path.GetTempPath(), "TempKeystore.jks");
+            File.WriteAllBytes(tempKeystorePath, Convert.FromBase64String(keystoreBase64));
+
             PlayerSettings.Android.useCustomKeystore = true;
-            PlayerSettings.Android.keystoreName = keystorePath;
+            PlayerSettings.Android.keystoreName = tempKeystorePath;
             PlayerSettings.Android.keystorePass = keystorePass;
             PlayerSettings.Android.keyaliasName = keyAlias;
             PlayerSettings.Android.keyaliasPass = keyPass;
 
-            Debug.Log("Android signing configured successfully.");
+            Debug.Log("Android signing configured from Base64 keystore.");
         }
         else
         {
-            Debug.LogWarning("Keystore path not set. APK/AAB will be unsigned.");
+            Debug.LogWarning("Keystore Base64 not set. APK/AAB will be unsigned.");
         }
 
+        // ========================
+        // Общие параметры сборки
+        // ========================
         BuildPlayerOptions options = new BuildPlayerOptions
         {
             scenes = scenes,
@@ -48,7 +65,9 @@ public class BuildScript
             options = BuildOptions.None
         };
 
-        // === 1. Сборка .AAB ===
+        // ========================
+        // 1. Сборка AAB
+        // ========================
         EditorUserBuildSettings.buildAppBundle = true;
         options.locationPathName = aabPath;
 
@@ -59,7 +78,9 @@ public class BuildScript
         else
             Debug.LogError("AAB build failed!");
 
-        // === 2. Сборка .APK ===
+        // ========================
+        // 2. Сборка APK
+        // ========================
         EditorUserBuildSettings.buildAppBundle = false;
         options.locationPathName = apkPath;
 
@@ -71,5 +92,14 @@ public class BuildScript
             Debug.LogError("APK build failed!");
 
         Debug.Log("=== Build script finished ===");
+
+        // ========================
+        // Удаление временного keystore
+        // ========================
+        if (!string.IsNullOrEmpty(tempKeystorePath) && File.Exists(tempKeystorePath))
+        {
+            File.Delete(tempKeystorePath);
+            Debug.Log("Temporary keystore deleted.");
+        }
     }
 }

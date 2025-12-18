@@ -1,0 +1,15 @@
+workflows:
+  unity-build:
+    name: Unity Build - IceFishing (Windows)
+    environment:
+      unity: 2022.3.62f1
+      os: windows
+      vars:
+        BUILD_PLATFORM: android  
+    scripts:
+      - name: Build Unity Project
+        script: |
+          echo Starting Unity build on Windows...
+          "$UNITY_PATH\Editor\Unity.exe" -quit -batchmode -nographics -projectPath "$CM_PROJECT_DIR\IceFishing" -executeMethod BuildScript.PerformBuild -buildTarget $BUILD_PLATFORM
+    artifacts:
+      - build\**\*

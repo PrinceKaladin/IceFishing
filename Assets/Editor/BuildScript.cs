@@ -1,5 +1,5 @@
 using UnityEditor;
-using UnityEditor.Build.Reporting; 
+using UnityEditor.Build.Reporting;
 using UnityEngine;
 using System.IO;
 
@@ -7,7 +7,6 @@ public class BuildScript
 {
     public static void PerformBuild()
     {
-        // Список сцен
         string[] scenes = {
             "Assets/Scenes/settings.unity",
             "Assets/Scenes/gameplay.unity",
@@ -17,12 +16,9 @@ public class BuildScript
             "Assets/Scenes/howtoplay.unity"
         };
 
-        // Папка для билдов
-        string buildFolder = "build/Android";
-        Directory.CreateDirectory(buildFolder);
-
-        string aabPath = Path.Combine(buildFolder, "IceFishing.aab");
-        string apkPath = Path.Combine(buildFolder, "IceFishing.apk");
+        // Сохраняем файлы прямо в корень проекта (CM_BUILD_DIR)
+        string aabPath = "IceFishing.aab";
+        string apkPath = "IceFishing.apk";
 
         BuildPlayerOptions options = new BuildPlayerOptions
         {
@@ -31,7 +27,7 @@ public class BuildScript
             options = BuildOptions.None
         };
 
-        // 1. Сборка .AAB (для Google Play)
+        // 1. Сборка .AAB
         EditorUserBuildSettings.buildAppBundle = true;
         options.locationPathName = aabPath;
 
@@ -39,15 +35,14 @@ public class BuildScript
         BuildReport reportAab = BuildPipeline.BuildPlayer(options);
         if (reportAab.summary.result == BuildResult.Succeeded)
         {
-            Debug.Log("AAB build succeeded!");
+            Debug.Log("AAB build succeeded! File: " + aabPath);
         }
         else
         {
-            Debug.LogError("AAB build failed! Total errors: " + reportAab.summary.totalErrors);
-            // Не прерываем выполнение — продолжим пытаться собрать APK
+            Debug.LogError("AAB build failed!");
         }
 
-        // 2. Сборка .APK (для теста)
+        // 2. Сборка .APK
         EditorUserBuildSettings.buildAppBundle = false;
         options.locationPathName = apkPath;
 
@@ -55,11 +50,11 @@ public class BuildScript
         BuildReport reportApk = BuildPipeline.BuildPlayer(options);
         if (reportApk.summary.result == BuildResult.Succeeded)
         {
-            Debug.Log("APK build succeeded!");
+            Debug.Log("APK build succeeded! File: " + apkPath);
         }
         else
         {
-            Debug.LogError("APK build failed! Total errors: " + reportApk.summary.totalErrors);
+            Debug.LogError("APK build failed!");
         }
 
         Debug.Log("=== Build script finished ===");

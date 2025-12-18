@@ -10,6 +10,14 @@ workflows:
       groups:
         - unity_credentials  
     scripts:
+      - name: Activate Unity license
+        script: |
+          "$UNITY_HOME/Contents/MacOS/Unity" -batchmode \
+            -quit \
+            -logFile unity_license.log \
+            -serial $UNITY_SERIAL \
+            -username $UNITY_EMAIL \
+            -password $UNITY_PASSWORD
 
       - name: Build the project
         script: |
@@ -25,4 +33,12 @@ workflows:
       - build/Android/*.aab
       - unity_build.log  
 
-
+    publishing:
+      scripts:
+        - name: Deactivate Unity license
+          script: |
+            "$UNITY_HOME/Contents/MacOS/Unity" -batchmode \
+              -quit \
+              -logFile unity_return.log \
+              -returnlicense \
+              -nographics

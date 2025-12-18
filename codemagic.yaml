@@ -3,46 +3,40 @@ workflows:
     name: Unity Build - IceFishing
     instance_type: mac_mini_m2
     max_build_duration: 120
+
     environment:
       unity: 2022.3.62f1
       vars:
         BUILD_PLATFORM: android
       groups:
-        - unity_credentials 
+        - unity_credentials  # UNITY_EMAIL, UNITY_PASSWORD
+
     scripts:
-      - name: Activate Unity license
+      - name: Activate Unity Personal license
         script: |
-          echo "Activating Unity license..."
-          "$UNITY_HOME/Contents/MacOS/Unity" -batchmode \
+          echo "Activating Unity Personal license..."
+          "$UNITY_HOME/Contents/MacOS/Unity" \
+            -batchmode \
+            -nographics \
             -quit \
             -logFile unity_license.log \
-            -serial $UNITY_SERIAL \
-            -username $UNITY_EMAIL \
-            -password $UNITY_PASSWORD
-
-      - name: Return Unity license
-        script: |
-          echo "Returning Unity license to ensure batch builds recognize it..."
-          "$UNITY_HOME/Contents/MacOS/Unity" -batchmode \
-            -quit \
-            -returnlicense \
-            -logFile unity_license_return.log
-
-
+            -username "$UNITY_EMAIL" \
+            -password "$UNITY_PASSWORD" \
+            -license UnityPersonal
 
       - name: Build the project
         script: |
           echo "Building Unity project..."
-          "$UNITY_HOME/Contents/MacOS/Unity" -batchmode \
+          "$UNITY_HOME/Contents/MacOS/Unity" \
+            -batchmode \
+            -nographics \
             -quit \
             -logFile unity_build.log \
             -projectPath . \
-            -executeMethod BuildScript.PerformBuild \
-            -nographics
+            -executeMethod BuildScript.PerformBuild
 
     artifacts:
       - IceFishing.aab
       - IceFishing.apk
       - unity_build.log
       - unity_license.log
-      - unity_license_return.log

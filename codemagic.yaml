@@ -10,7 +10,7 @@ workflows:
       groups:
         - unity_credentials
     cache:
-      folders:
+      paths:
         - Library
         - obj
         - Logs

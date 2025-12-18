@@ -30,7 +30,10 @@ workflows:
             -nographics
 
     artifacts:
-      - build/Android/*.aab
-      - unity_build.log  
+      - IceFishing.aab
+      - IceFishing.apk
+      - *.aab        # на всякий случай
+      - *.apk
+      - unity_build.log
 
 

@@ -3,19 +3,18 @@ workflows:
     name: Unity Build - IceFishing
     instance_type: mac_mini_m2
     max_build_duration: 180
-    caching:
-      enabled: true
-      paths:
-        - Library
-        - obj
-        - Logs
-        - UserSettings
     environment:
       unity: 2022.3.62f1
       vars:
         BUILD_PLATFORM: android
       groups:
         - unity_credentials
+    cache:
+      folders:
+        - Library
+        - obj
+        - Logs
+        - UserSettings
     scripts:
       - name: Activate Unity license
         script: |
@@ -25,6 +24,7 @@ workflows:
             -serial $UNITY_SERIAL \
             -username $UNITY_EMAIL \
             -password $UNITY_PASSWORD
+
       - name: Build the project
         script: |
           echo "Building Unity project..."
@@ -34,6 +34,7 @@ workflows:
             -projectPath . \
             -executeMethod BuildScript.PerformBuild \
             -nographics
+
     artifacts:
       - IceFishing.aab
       - IceFishing.apk

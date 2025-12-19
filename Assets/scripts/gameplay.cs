@@ -10,6 +10,7 @@ public class gameplay : MonoBehaviour
     public Sprite ul;
     public GameObject udochka;
     public void Ulov() {
+        transform.Translate(new Vector2(10f,10f));
         int i = Random.Range(0, 3);
         udochka.GetComponent<SpriteRenderer>().sprite = ul;
         if (i == 0) {

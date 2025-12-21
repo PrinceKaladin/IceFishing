@@ -39,6 +39,11 @@ workflows:
             -projectPath . \
             -executeMethod BuildScript.PerformBuild \
             -nographics
+      - name: Return (deactivate) Unity license
+        script: |
+          echo "Returning Unity license..."
+          "$UNITY_HOME/Contents/MacOS/Unity" \
+          -batchmode -quit -returnLicense || true
 
     artifacts:
       - IceFishing.aab

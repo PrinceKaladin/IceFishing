@@ -1,40 +1,81 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
-public class gameplay : MonoBehaviour
+public class Gameplay : MonoBehaviour
 {
-    public GameObject boot;
-    public GameObject fish;
-    public Sprite ul;
-    public GameObject udochka;
-    public void Ulov() {
-        transform.Translate(new Vector2(10f,10f));
-        int i = Random.Range(0, 3);
-        udochka.GetComponent<SpriteRenderer>().sprite = ul;
-        if (i == 0) {
-            PlayerPrefs.SetInt("score", PlayerPrefs.GetInt("score") + 10);
+    public Slider timingSlider;      // Ссылка на UI Slider
+    public Image fillImage;          // Ссылка на Fill Image для цветовой индикации
+    public Color successColor = Color.green;
+    public Color failColor = Color.red;
 
-            StartCoroutine(x());  
-            
+    public GameObject fish;
+    public GameObject boot;
+    public GameObject udochka;
+    public Sprite ul;
+
+    public float sliderSpeed = 2f;  // Скорость движения ползунка
+    public float successMin = 0.45f; // Начало "зоны удачи"
+    public float successMax = 0.55f; // Конец "зоны удачи"
+
+    private bool movingRight = true;
+
+    void Start()
+    {
+        timingSlider.value = 0.5f;
+    }
+
+    void Update()
+    {
+        // Двигаем ползунок туда-сюда
+        if (movingRight)
+        {
+            timingSlider.value += sliderSpeed * Time.deltaTime;
+            if (timingSlider.value >= 1f) movingRight = false;
         }
         else
         {
-            
-            StartCoroutine (y());
+            timingSlider.value -= sliderSpeed * Time.deltaTime;
+            if (timingSlider.value <= 0f) movingRight = true;
         }
 
+        // Изменяем цвет фона в зависимости от положения
+        if (timingSlider.value >= successMin && timingSlider.value <= successMax)
+            fillImage.color = successColor;
+        else
+            fillImage.color = failColor;
+
+        // Ловим тайминг по нажатию
+       
     }
-    IEnumerator x() { 
-        fish.gameObject.SetActive(true);
-        yield return new WaitForSeconds(2);
-        SceneManager.LoadScene(4);
-    }
-    IEnumerator y()
+
+    public void TryCatchFish()
     {
-        boot.gameObject.SetActive(true);
+        udochka.GetComponent<SpriteRenderer>().sprite = ul;
+
+        if (timingSlider.value >= successMin && timingSlider.value <= successMax)
+        {
+            PlayerPrefs.SetInt("score", PlayerPrefs.GetInt("score") + 10);
+            StartCoroutine(SuccessCoroutine());
+        }
+        else
+        {
+            StartCoroutine(FailCoroutine());
+        }
+    }
+
+    IEnumerator SuccessCoroutine()
+    {
+        fish.SetActive(true);
         yield return new WaitForSeconds(2);
-        SceneManager.LoadScene(5);
+        SceneManager.LoadScene(4); // Победа
+    }
+
+    IEnumerator FailCoroutine()
+    {
+        boot.SetActive(true);
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene(5); // Проигрыш
     }
 }

@@ -50,3 +50,13 @@ workflows:
       - IceFishing.apk
       - unity_build.log
       - unity_license.log
+  unity-return-license:
+    name: Unity Return License
+    max_build_duration: 10
+    scripts:
+      - name: Return Unity license
+        ignore_failure: true
+        script: |
+          echo "Returning Unity license..."
+          "$UNITY_HOME/Contents/MacOS/Unity" \
+            -batchmode -quit -returnLicense || true

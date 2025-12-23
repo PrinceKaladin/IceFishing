@@ -8,11 +8,7 @@ public class score : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (!PlayerPrefs.HasKey("score"))
-        {
-            PlayerPrefs.SetInt("score", 0);
-        }
-        this.GetComponent<Text>().text =  PlayerPrefs.GetInt("score").ToString();
+        this.GetComponent<Text>().text = "+" + PlayerPrefs.GetInt("score").ToString();
         
     }
 

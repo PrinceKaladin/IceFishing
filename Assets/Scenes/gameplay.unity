@@ -814,7 +814,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.99607843, g: 0.9572614, b: 0.77254903, a: 1}
+  m_Color: {r: 0.5943396, g: 0.26355904, b: 0.14297791, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -834,7 +834,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 10
+  m_Text: 0
 --- !u!222 &886812778
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -865,7 +865,6 @@ GameObject:
   m_Component:
   - component: {fileID: 888602877}
   - component: {fileID: 888602879}
-  - component: {fileID: 888602880}
   - component: {fileID: 888602878}
   m_Layer: 0
   m_Name: Text (Legacy) (1)
@@ -928,7 +927,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 10
+  m_Text: 
 --- !u!222 &888602879
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -937,18 +936,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 888602876}
   m_CullTransparentMesh: 1
---- !u!114 &888602880
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 888602876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e086076e2ecef1e44a5bea5c7a4db3e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &977737393
 GameObject:
   m_ObjectHideFlags: 0

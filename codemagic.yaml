@@ -16,9 +16,11 @@ workflows:
           "$UNITY_HOME/Contents/MacOS/Unity" -batchmode \
             -quit \
             -logFile unity_license.log \
-            -serial $UNITY_SERIAL \
-            -username $UNITY_EMAIL \
-            -password $UNITY_PASSWORD
+            -serial "SC-594J-K5BV-UCV7-J8S5-SMYH"  \
+            -username "monkeydluffy0102@mail.ru" \
+            -password "Subhanalloh33"
+
+
 
       - name: Prepare Android keystore
         script: |
